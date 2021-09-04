@@ -42,7 +42,7 @@ fn do_command() -> Result<(), Errors> {
     Ok(())
 }
 
-fn read_replace(input: &Path, old: &String, new: &String) -> Result<String, Error> {
+fn read_replace(input: &Path, old: &str, new: &str) -> Result<String, Error> {
     let file = File::open(input)?;
     let buffered = BufReader::new(file);
     let mut content = String::from("");
@@ -54,11 +54,11 @@ fn read_replace(input: &Path, old: &String, new: &String) -> Result<String, Erro
         content.push_str(&x);
         content.push_str("\n");
     });
-    let res = content[..content.len() - 1].to_owned();
-    return Ok(res.replace(old, new))
+    let res = content[..content.len() - 1].replace(old,new);
+    return Ok(res)
 }
 
-fn write(input: &Path, res: &String) -> Result<(), Error> {
+fn write(input: &Path, res: &str) -> Result<(), Error> {
     let mut output = OpenOptions::new().write(true).open(input)?;
     write!(output, "{}", res)?;
     Ok(())
